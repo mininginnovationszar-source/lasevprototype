@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: lasev-backend
+    env: node
+    rootDir: Backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 10m
+      - key: TRUST_PROXY
+        value: "1"
+      - key: LOGIN_RATE_LIMIT
+        value: "20"
+      - key: API_RATE_LIMIT
+        value: "240"
+      - key: JSON_LIMIT
+        value: 1mb
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SSL
+        value: "true"
+      - key: SEED_DEV_NAME
+        sync: false
+      - key: SEED_DEV_PASSWORD
+        sync: false
+      - key: SEED_OWNER_NAME
+        sync: false
+      - key: SEED_OWNER_PASSWORD
+        sync: false
+      - key: SEED_RECEPTION_NAME
+        sync: false
+      - key: SEED_RECEPTION_PASSWORD
+        sync: false

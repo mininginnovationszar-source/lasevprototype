@@ -1,0 +1,18 @@
+[build]
+  publish = "App"
+  command = "printf '\"use strict\";\\n\\nwindow.LASEV_API_BASE = \"%s\";\\n' \"$LASEV_API_BASE\" > App/config.js"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "no-store"
