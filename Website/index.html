@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lasev Resort</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script defer src="script.js"></script>
+</head>
+<body>
+<div class="site-shell">
+  <header class="navbar" id="navbar">
+    <a class="brand" href="#top" aria-label="Lasev Resort home">
+      <span class="brand-mark"><img class="brand-logo" src="assets/lasev-logo-transparent.png" alt=""></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#rooms">Rooms</a></li>
+        <li><a href="#amenities">Amenities</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#experience">Experiences</a></li>
+        <li><a href="#booking" class="nav-book">Book Now</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <i data-lucide="menu"></i>
+    </button>
+  </header>
+
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+    <a href="#rooms">Rooms</a>
+    <a href="#amenities">Amenities</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#experience">Experiences</a>
+    <a href="#booking">Book Now</a>
+  </nav>
+
+  <main id="top">
+    <section class="hero" aria-label="Lasev Resort overview">
+      <div class="hero-media" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-copy">
+          <div class="hero-brand-lockup">
+            <img src="assets/lasev-logo-transparent.png" alt="Lasev Resort logo">
+            <span>Honingnestkrans, Pretoria</span>
+          </div>
+          <p class="hero-label"><i data-lucide="map-pin"></i> Pretoria Bushveld Escape</p>
+          <h1>Lasev Resort</h1>
+          <p class="hero-sub">A relaxed resort for stays, family days, events, spa visits, and poolside weekends in Honingnestkrans.</p>
+          <div class="hero-actions">
+            <a href="#booking" class="btn-primary"><i data-lucide="calendar-check"></i> Reserve Your Stay</a>
+            <a href="#rooms" class="btn-secondary"><i data-lucide="bed-double"></i> View Rooms</a>
+          </div>
+        </div>
+
+        <aside class="availability-card" aria-label="Quick booking form">
+          <div class="availability-head">
+            <h2>Quick Enquiry</h2>
+            <span class="status-pill">Resort Desk</span>
+          </div>
+          <form class="quick-book" id="quick-book-form">
+            <div class="field">
+              <label for="quick-name">Guest Name</label>
+              <input id="quick-name" type="text" placeholder="Full name" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="quick-booking-type">Booking Type</label>
+              <select id="quick-booking-type">
+                <option value="">Select booking type</option>
+                <option>Room Stay</option>
+                <option>Group Booking</option>
+                <option>Event</option>
+                <option>Day Visit</option>
+                <option>Spa / Wellness</option>
+                <option>Other Enquiry</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="quick-whatsapp">WhatsApp Contact</label>
+              <input id="quick-whatsapp" type="tel" placeholder="081 000 0000" autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="quick-guests">Guests</label>
+              <input id="quick-guests" type="number" min="1" max="500" placeholder="2">
+            </div>
+            <p class="request-feedback" id="quick-request-status"></p>
+            <button class="btn-primary" type="submit"><i data-lucide="send"></i> Send Enquiry</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <div class="hero-stats" aria-label="Resort highlights">
+      <div class="kpi-card"><span class="kpi-value">6</span><span class="kpi-label">Booking Types</span></div>
+      <div class="kpi-card"><span class="kpi-value">2</span><span class="kpi-label">Pool Areas</span></div>
+      <div class="kpi-card"><span class="kpi-value">185</span><span class="kpi-label">Rooiwal Road</span></div>
+      <div class="kpi-card"><span class="kpi-value">24h</span><span class="kpi-label">Booking Enquiry</span></div>
+    </div>
+
+    <section class="section about" id="about">
+      <div class="section-inner split">
+        <div class="image-panel">
+          <img src="assets/resort-6.jpg" alt="Aerial view of Lasev Resort swimming pool and grounds">
+        </div>
+        <div>
+          <p class="section-kicker">About Lasev</p>
+          <h2 class="section-title">A calmer way to gather, stay, and unwind.</h2>
+          <p class="section-lead">Lasev Resort blends simple accommodation, outdoor family activities, event spaces, and leisure facilities into one easy Pretoria escape.</p>
+          <div class="feature-list">
+            <div class="feature-chip"><i data-lucide="waves"></i> Pools and slides</div>
+            <div class="feature-chip"><i data-lucide="tent"></i> Lapa gatherings</div>
+            <div class="feature-chip"><i data-lucide="sparkles"></i> Spa treatments</div>
+            <div class="feature-chip"><i data-lucide="party-popper"></i> Events and decor</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section rooms" id="rooms">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Accommodation</p>
+            <h2 class="section-title">Rooms for restful nights.</h2>
+            <p class="section-lead">Choose a practical room for a quick stopover, a family weekend, or a longer resort stay.</p>
+          </div>
+          <a class="btn-secondary" href="#booking"><i data-lucide="calendar-plus"></i> Ask Availability</a>
+        </div>
+        <div class="room-grid">
+          <article class="room-card">
+            <img src="assets/resort-1.jpg" alt="Double room with red accent pillows">
+            <div class="room-body">
+              <div class="room-top"><h3>Double Room</h3><span class="badge">Popular</span></div>
+              <p>A comfortable private room for couples or solo travellers visiting Pretoria north.</p>
+              <div class="room-meta"><span><i data-lucide="users"></i> 2 guests</span><span><i data-lucide="bath"></i> Ensuite</span></div>
+            </div>
+          </article>
+          <article class="room-card">
+            <img src="assets/resort-2.jpg" alt="Twin beds in a guest room">
+            <div class="room-body">
+              <div class="room-top"><h3>Quadruple Room</h3><span class="badge">Family</span></div>
+              <p>More sleeping space for families, groups, and guests staying after events.</p>
+              <div class="room-meta"><span><i data-lucide="users"></i> 4 guests</span><span><i data-lucide="wifi"></i> Wi-Fi</span></div>
+            </div>
+          </article>
+          <article class="room-card">
+            <img src="assets/resort-3.jpg" alt="Large family room with multiple beds">
+            <div class="room-body">
+              <div class="room-top"><h3>Family Room</h3><span class="badge">Spacious</span></div>
+              <p>A larger layout for families who want easy access to resort amenities.</p>
+              <div class="room-meta"><span><i data-lucide="users"></i> Groups</span><span><i data-lucide="parking-circle"></i> Parking</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="amenities">
+      <div class="section-inner">
+        <p class="section-kicker">Amenities</p>
+        <h2 class="section-title">Built for repeat visits.</h2>
+        <p class="section-lead">The resort experience is easy to scan and easy to plan, just like the management app behind it.</p>
+        <div class="amenities-grid">
+          <article class="amenity-card">
+            <div class="amenity-icon"><i data-lucide="waves"></i></div>
+            <h3>Swimming Pools</h3>
+            <p>Outdoor pools and slide areas for relaxed family days.</p>
+          </article>
+          <article class="amenity-card">
+            <div class="amenity-icon"><i data-lucide="flame"></i></div>
+            <h3>Lapa Braais</h3>
+            <p>Outdoor social spaces for birthdays, braais, and private bookings.</p>
+          </article>
+          <article class="amenity-card">
+            <div class="amenity-icon"><i data-lucide="music-2"></i></div>
+            <h3>Event Hire</h3>
+            <p>Sound, decor, and flexible spaces for functions and celebrations.</p>
+          </article>
+          <article class="amenity-card">
+            <div class="amenity-icon"><i data-lucide="leaf"></i></div>
+            <h3>Wellness</h3>
+            <p>Spa-style treatments and slower moments between activities.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section rooms" id="gallery">
+      <div class="section-inner">
+        <p class="section-kicker">Gallery</p>
+        <h2 class="section-title">A visual check-in.</h2>
+        <div class="gallery-grid">
+          <figure class="gallery-item"><img src="assets/resort-4.jpg" alt="Poolside lapa and seating"><figcaption class="gallery-caption">Poolside lapa</figcaption></figure>
+          <figure class="gallery-item"><img src="assets/resort-5.jpg" alt="Colorful water slides"><figcaption class="gallery-caption">Water slides</figcaption></figure>
+          <figure class="gallery-item"><img src="assets/resort-6.jpg" alt="Resort pool and lawns from above"><figcaption class="gallery-caption">Open grounds</figcaption></figure>
+          <figure class="gallery-item"><img src="assets/resort-8.jpg" alt="Aerial resort view"><figcaption class="gallery-caption">Resort layout</figcaption></figure>
+          <figure class="gallery-item"><img src="assets/resort-1.jpg" alt="Guest bedroom"><figcaption class="gallery-caption">Guest rooms</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="section-inner experience-panel">
+        <img src="assets/resort-5.jpg" alt="Lasev Resort water slides">
+        <div class="experience-content">
+          <p class="section-kicker">Experiences</p>
+          <h2 class="section-title">Plan the day around the people coming with you.</h2>
+          <p class="section-lead">Keep it simple with pool time and a braai, or build a full event with decor, sound, catering, and accommodation.</p>
+          <ul class="experience-list">
+            <li><i data-lucide="check"></i> Wildlife walks and outdoor views</li>
+            <li><i data-lucide="check"></i> Pool days and water slides</li>
+            <li><i data-lucide="check"></i> Lapa braais and private dining</li>
+            <li><i data-lucide="check"></i> Events, birthdays, and functions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials">
+      <div class="section-inner">
+        <p class="section-kicker">Guest Stories</p>
+        <h2 class="section-title">What guests remember.</h2>
+        <div class="testimonial-grid">
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"The pools were clean and the staff welcomed us very well. We would love to come back."</p>
+            <p class="author">Sharon M.</p>
+          </article>
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"Friendly staff members who are willing to help at any time. The resort is beautiful."</p>
+            <p class="author">Verified Guest</p>
+          </article>
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"The spa facilities created a serene atmosphere and left me feeling rejuvenated."</p>
+            <p class="author">Booking.com Guest</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section booking" id="booking">
+      <div class="section-inner">
+        <p class="section-kicker">Make a Reservation</p>
+        <h2 class="section-title">Send a booking enquiry.</h2>
+        <p class="section-lead">Fill in your stay details and the resort desk will confirm availability from the booking demo.</p>
+        <div class="booking-card">
+          <form id="booking-form">
+            <div class="booking-form">
+              <div class="field wide">
+                <label for="book-name">Full Name</label>
+                <input id="book-name" type="text" placeholder="Your name" autocomplete="name">
+              </div>
+              <div class="field wide">
+                <label for="book-whatsapp">WhatsApp Contact</label>
+                <input id="book-whatsapp" type="tel" placeholder="Your WhatsApp number" autocomplete="tel">
+              </div>
+              <div class="field">
+                <label for="book-booking-type">Booking Type</label>
+                <select id="book-booking-type">
+                  <option value="">Select booking type</option>
+                  <option>Room Stay</option>
+                  <option>Group Booking</option>
+                  <option>Event</option>
+                  <option>Day Visit</option>
+                  <option>Spa / Wellness</option>
+                  <option>Other Enquiry</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="book-checkin">Check In</label>
+                <input id="book-checkin" type="date">
+              </div>
+              <div class="field">
+                <label for="book-checkout">Check Out</label>
+                <input id="book-checkout" type="date">
+              </div>
+              <div class="field">
+                <label for="book-guests">Guests</label>
+                <input id="book-guests" type="number" min="1" max="500" placeholder="2">
+              </div>
+            </div>
+            <div class="form-actions">
+              <p class="request-feedback" id="booking-error"></p>
+              <button class="btn-primary" type="submit"><i data-lucide="send"></i> Send to Resort Desk</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="location" id="location">
+      <div class="location-wrap">
+        <div class="location-info">
+          <p class="section-kicker">Find Us</p>
+          <h2 class="section-title">Honingnestkrans, Pretoria.</h2>
+          <p class="section-lead">185 Rooiwal Road, Honingnestkrans, Pretoria, Gauteng, 0110.</p>
+          <div class="contact-list">
+            <a href="tel:+27813884299"><i data-lucide="phone"></i> 081 388 4299</a>
+            <a href="tel:+27123832204"><i data-lucide="phone-call"></i> 012 383 2204</a>
+            <a href="https://maps.app.goo.gl/yhLVz47LEN9qr66JA" target="_blank" rel="noopener"><i data-lucide="navigation"></i> Open in Google Maps</a>
+          </div>
+        </div>
+        <div class="location-map">
+          <iframe
+            title="Lasev Resort map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7199.302682982412!2d28.1551133!3d-25.5499883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ebfc5cff8b16175%3A0xc8a5134f4f990635!2sLasev%20resort!5e0!3m2!1sen!2sza!4v1780185977377!5m2!1sen!2sza"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">Lasev <span>Resort</span></div>
+          <p class="footer-tagline">A Pretoria resort for rooms, pools, events, spa visits, and easy family escapes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Resort</h4>
+          <ul>
+            <li><a href="#rooms">Accommodation</a></li>
+            <li><a href="#amenities">Swimming Pools</a></li>
+            <li><a href="#amenities">Spa</a></li>
+            <li><a href="#experience">Events Hosting</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Information</h4>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#booking">Reservations</a></li>
+            <li><a href="https://www.booking.com/hotel/za/lasev-resort-pretoria.html" target="_blank" rel="noopener">Booking.com</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+27813884299">081 388 4299</a></li>
+            <li><a href="tel:+27123832204">012 383 2204</a></li>
+            <li><a href="http://www.lasevresort.co.za" target="_blank" rel="noopener">lasevresort.co.za</a></li>
+            <li><a href="https://maps.app.goo.gl/yhLVz47LEN9qr66JA" target="_blank" rel="noopener">185 Rooiwal Road</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Lasev Resort. All rights reserved.</span>
+        <div class="footer-socials" aria-label="Social links">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Instagram">ig</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

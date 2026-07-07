@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lasev Resort — Sign In</title>
+  <link rel="stylesheet" href="login.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="bg-layer">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <div class="login-container">
+
+    <!-- Left branding panel -->
+    <aside class="login-brand">
+      <div class="brand-inner">
+        <div class="brand-mark">✦</div>
+        <h1 class="brand-title">Lasev<br/>Resort</h1>
+        <p class="brand-tagline">Management Suite</p>
+        <div class="brand-divider"></div>
+
+        <!-- Live reception clock -->
+        <div class="reception-clock">
+          <div class="clock-time" id="loginClock">--:--:--</div>
+          <div class="clock-date" id="loginDate">---</div>
+        </div>
+
+        <div class="brand-features">
+          <div class="feature-item"><i data-lucide="shield-check"></i><span>Role-based access</span></div>
+          <div class="feature-item"><i data-lucide="clock"></i><span>Staff clock-in system</span></div>
+          <div class="feature-item"><i data-lucide="calendar-check"></i><span>Bookings &amp; venues</span></div>
+          <div class="feature-item"><i data-lucide="globe"></i><span>Cloud-ready database</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right form panel -->
+    <main class="login-form-panel">
+      <div class="form-wrap">
+
+        <div class="form-header">
+          <div class="form-logo">✦</div>
+          <h2>Welcome back</h2>
+          <p>Sign in with your name and password</p>
+        </div>
+
+        <form id="loginForm" novalidate>
+
+          <div class="field-group">
+            <label for="loginName">Name</label>
+            <div class="field-wrap">
+              <i data-lucide="user"></i>
+              <input type="text" id="loginName" placeholder="Name" autocomplete="name" spellcheck="false"/>
+            </div>
+            <span class="field-error" id="nameError"></span>
+          </div>
+
+          <div class="field-group">
+            <label for="loginPassword">Password</label>
+            <div class="field-wrap">
+              <i data-lucide="lock"></i>
+              <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password"/>
+              <button type="button" class="toggle-pw" id="togglePw">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+            <span class="field-error" id="pwError"></span>
+          </div>
+
+          <div class="form-row-options">
+            <label class="remember-label">
+              <input type="checkbox" id="rememberMe"/>
+              <span class="checkbox-custom"></span>
+              Keep me signed in
+            </label>
+            <button type="button" class="forgot-link" id="forgotBtn">Forgot password?</button>
+          </div>
+
+          <button type="submit" class="btn-signin" id="signinBtn">
+            <span id="signinText">Sign In</span>
+            <div class="spinner" id="signinSpinner" style="display:none"></div>
+          </button>
+
+        </form>
+
+        <div class="form-footer">
+          <p>Lasev Resort Management Suite &copy; 2025</p>
+          <p>Need access? Contact your manager or developer.</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Forgot password modal -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal-box">
+      <button class="modal-x" id="closeForgot"><i data-lucide="x"></i></button>
+      <div class="modal-icon"><i data-lucide="key-round"></i></div>
+      <h3>Reset Password</h3>
+      <p>Contact your manager or the system developer to have your password reset.</p>
+      <button class="btn-signin" id="closeForgotBtn">Got it</button>
+    </div>
+  </div>
+
+  <script>
+    window.LASEV_API_BASE = "";
+  </script>
+  <script src="api.js"></script>
+  <script src="auth.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>

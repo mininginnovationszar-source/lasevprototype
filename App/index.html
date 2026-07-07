@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lasev Resort — Management Suite</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">✦</div>
+      <div class="brand-text">
+        <span class="brand-name">Lasev</span>
+        <span class="brand-sub">Resort Suite</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-footer">
+      <div class="staff-badge" id="staffBadge"></div>
+      <button class="logout-btn" id="logoutBtn"><i data-lucide="log-out"></i><span>Sign Out</span></button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle"><i data-lucide="menu"></i></button>
+        <div class="page-title-wrap">
+          <h1 class="page-title" id="pageTitle">Dashboard</h1>
+          <span class="page-date" id="pageDate"></span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="notification-btn" id="notificationBtn" title="Messages"><i data-lucide="bell"></i><span id="notificationCount">0</span></button>
+        <div class="topbar-clock" id="topbarClock"></div>
+        <div class="role-badge-display" id="roleBadgeDisplay"></div>
+        <button class="user-avatar-btn" id="userAvatarBtn"><span id="userAvatarText">?</span></button>
+      </div>
+    </header>
+    <div class="switch-banner" id="switchBanner" style="display:none"></div>
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+      <p class="section-subtitle" id="dashWelcome">Welcome back.</p>
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-bookings">
+          <div class="kpi-icon"><i data-lucide="calendar-check"></i></div>
+          <div class="kpi-data"><span class="kpi-value" id="kpi-total-bookings">0</span><span class="kpi-label">Room Bookings</span></div>
+          <div class="kpi-trend up" id="kpi-booking-trend">Active</div>
+        </div>
+        <div class="kpi-card kpi-venues">
+          <div class="kpi-icon"><i data-lucide="tent"></i></div>
+          <div class="kpi-data"><span class="kpi-value" id="kpi-total-venues">0</span><span class="kpi-label">Venue Bookings</span></div>
+          <div class="kpi-trend">This month</div>
+        </div>
+        <div class="kpi-card kpi-revenue">
+          <div class="kpi-icon"><i data-lucide="circle-dollar-sign"></i></div>
+          <div class="kpi-data"><span class="kpi-value" id="kpi-revenue">R0</span><span class="kpi-label">Total Revenue</span></div>
+          <div class="kpi-trend up">Paid bookings</div>
+        </div>
+        <div class="kpi-card kpi-staff">
+          <div class="kpi-icon"><i data-lucide="users"></i></div>
+          <div class="kpi-data"><span class="kpi-value" id="kpi-clocked-in">0</span><span class="kpi-label">Staff On Shift</span></div>
+          <div class="kpi-trend" id="kpi-shift-trend">Today</div>
+        </div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="dash-card">
+          <div class="dash-card-header"><h3>Recent Bookings</h3><button class="link-btn" data-page="bookings">View all →</button></div>
+          <div class="table-wrap">
+            <table class="data-table"><thead><tr><th>Guest</th><th>Type</th><th>Date</th><th>Status</th></tr></thead><tbody id="recentBookingsTbody"></tbody></table>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-header"><h3>Staff On Shift</h3><button class="link-btn" data-page="clockin">Clock-in →</button></div>
+          <div class="staff-on-shift" id="staffOnShift"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MESSAGES -->
+    <section class="page" id="page-messages">
+      <div class="card message-inbox-full">
+
+      <div class="message-toolbar">
+          <button class="btn-primary" id="newMessageBtn">
+              <i data-lucide="plus"></i>
+            New Conversation
+          </button>
+      </div>
+
+        <div class="conversation-layout">
+        <div class="message-list" id="messageList"></div>
+        <div class="conversation-panel" id="conversationPanel"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WEBSITE REQUESTS -->
+    <section class="page" id="page-website-requests">
+      <div class="page-actions">
+        <div class="filter-group">
+          <div class="search-wrap"><i data-lucide="search"></i><input type="text" id="websiteRequestSearch" placeholder="Search requests…" class="search-input"/></div>
+          <select class="filter-select" id="websiteRequestStatus">
+            <option value="">All Statuses</option>
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="converted">Converted</option>
+            <option value="archived">Archived</option>
+          </select>
+          <button class="btn-secondary" id="websiteRequestClear">Clear</button>
+        </div>
+        <button class="btn-secondary" id="websiteRequestRefresh"><i data-lucide="refresh-cw"></i> Refresh</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" id="websiteRequestsTable">
+            <thead><tr><th>Guest</th><th>Booking Type</th><th>Dates</th><th>Guests</th><th>Status</th><th>Received</th><th>Actions</th></tr></thead>
+            <tbody id="websiteRequestsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROOM BOOKINGS -->
+    <section class="page" id="page-bookings">
+      <div class="page-actions">
+        <div class="filter-group">
+          <div class="search-wrap"><i data-lucide="search"></i><input type="text" id="bookingSearch" placeholder="Search…" class="search-input" style="width:180px"/></div>
+          <input type="date" class="filter-select" id="bFilterFrom" title="From date"/>
+          <input type="date" class="filter-select" id="bFilterTo" title="To date"/>
+          <select class="filter-select" id="bFilterPayment"><option value="">All Payments</option><option>Paid</option><option>Pending</option><option>Partial</option><option>Cancelled</option></select>
+          <select class="filter-select" id="bFilterRoom"><option value="">All Room Types</option><option>Standard</option><option>Deluxe</option><option>Suite</option><option>Villa</option><option>Penthouse</option></select>
+          <button class="btn-secondary" id="bClearFilters">Clear</button>
+        </div>
+        <button class="btn-primary" id="addBookingBtn"><i data-lucide="plus"></i> New Booking</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" id="bookingsTable"><thead><tr><th>ID</th><th>Guest</th><th>Contact</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Nights</th><th>Payment</th><th>PDFs</th><th>Actions</th></tr></thead><tbody id="bookingsTbody"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VENUE BOOKINGS -->
+    <section class="page" id="page-venues">
+      <div class="page-actions">
+        <div class="filter-group">
+          <div class="search-wrap"><i data-lucide="search"></i><input type="text" id="venueSearch" placeholder="Search…" class="search-input" style="width:180px"/></div>
+          <input type="date" class="filter-select" id="vFilterFrom" title="From date"/>
+          <input type="date" class="filter-select" id="vFilterTo" title="To date"/>
+          <select class="filter-select" id="vFilterType">
+            <option value="">All Venue Types</option>
+            <option value="Lapa">Lapa</option>
+            <option value="Event Hall">Event Hall</option>
+            <option value="Conference Room">Conference Room</option>
+            <option value="Pool Area">Pool Area</option>
+            <option value="Garden">Garden</option>
+            <option value="Boma">Boma</option>
+            <option value="Boardroom">Boardroom</option>
+          </select>
+          <select class="filter-select" id="vFilterPayment"><option value="">All Payments</option><option>Paid</option><option>Pending</option><option>Partial</option><option>Cancelled</option></select>
+          <button class="btn-secondary" id="vClearFilters">Clear</button>
+        </div>
+        <button class="btn-primary" id="addVenueBtn"><i data-lucide="plus"></i> New Venue Booking</button>
+      </div>
+      <div class="venue-type-tabs" id="venueTypeTabs">
+        <button class="vtype-tab active" data-vtype="">All</button>
+        <button class="vtype-tab" data-vtype="Lapa">Lapa</button>
+        <button class="vtype-tab" data-vtype="Event Hall">Event Hall</button>
+        <button class="vtype-tab" data-vtype="Conference Room">Conference</button>
+        <button class="vtype-tab" data-vtype="Pool Area">Pool Area</button>
+        <button class="vtype-tab" data-vtype="Garden">Garden</button>
+        <button class="vtype-tab" data-vtype="Boma">Boma</button>
+        <button class="vtype-tab" data-vtype="Boardroom">Boardroom</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" id="venuesTable"><thead><tr><th>ID</th><th>Client</th><th>Contact</th><th>Venue</th><th>Event Type</th><th>Date</th><th>Time</th><th>Guests</th><th>Amount</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="venuesTbody"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROOMS -->
+    <section class="page" id="page-rooms">
+      <div class="page-actions">
+        <div class="filter-group">
+          <select class="filter-select" id="roomStatusFilter"><option value="">All Statuses</option><option value="available">Available</option><option value="booked">Booked</option><option value="maintenance">Maintenance</option></select>
+          <select class="filter-select" id="roomTypeFilter"><option value="">All Types</option><option>Standard</option><option>Deluxe</option><option>Suite</option><option>Villa</option><option>Penthouse</option></select>
+        </div>
+        <button class="btn-primary" id="addRoomBtn"><i data-lucide="plus"></i> Add Room</button>
+      </div>
+      <div class="rooms-grid" id="roomsGrid"></div>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section class="page" id="page-customers">
+      <div class="page-actions">
+        <div class="search-wrap"><i data-lucide="search"></i><input type="text" id="customerSearch" placeholder="Search customers…" class="search-input"/></div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" id="customersTable"><thead><tr><th>Name</th><th>Contact</th><th>Bookings</th><th>Venues</th><th>Total Spent</th><th>Last Visit</th><th>Details</th></tr></thead><tbody id="customersTbody"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOCK-IN -->
+    <section class="page" id="page-clockin">
+      <div class="clockin-hero">
+        <div class="ci-hero-clock" id="ciClock">--:--:--</div>
+        <div class="ci-hero-date" id="ciDate">---</div>
+        <div class="ci-hero-sub">Staff Clock-In Terminal — Lasev Resort</div>
+      </div>
+
+      <!-- Staff selector grid -->
+      <div class="staff-selector-panel">
+        <div class="ssp-header">
+          <div class="ssp-title"><i data-lucide="users"></i><span>Select Staff Member</span></div>
+          <p class="ssp-hint">Tap a card to clock staff in or out. Current session: <strong id="sspSession">—</strong></p>
+        </div>
+        <div class="ssp-grid" id="sspGrid"></div>
+      </div>
+
+      <!-- Shift log tabs -->
+      <div class="shift-tabs">
+        <button class="shift-tab active" data-shift="today">Today</button>
+        <button class="shift-tab" data-shift="week">This Week</button>
+        <button class="shift-tab" data-shift="all">All Records</button>
+      </div>
+
+      <!-- Filter bar (owner/dev only) -->
+      <div class="shift-filter-bar" id="shiftFilterBar">
+        <div class="search-wrap"><i data-lucide="search"></i><input type="text" id="shiftSearch" placeholder="Filter by name…" class="search-input" style="width:180px"/></div>
+        <select class="filter-select" id="shiftDeptFilter">
+          <option value="">All Departments</option>
+          <option>Reception</option><option>Housekeeping</option>
+          <option>Maintenance</option>
+          <option>Management</option><option>Engineering</option>
+        </select>
+        <button class="btn-primary" id="exportShiftsBtn" style="margin-left:auto"><i data-lucide="download"></i> Export CSV</button>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div class="table-wrap">
+          <table class="data-table" id="shiftsTable"><thead><tr><th>Staff Member</th><th>Department</th><th>Date</th><th>Clock In</th><th>Clock Out</th><th>Duration</th><th>Status</th><th>Recorded By</th><th id="shiftActionHeader"></th></tr></thead><tbody id="shiftsTbody"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN -->
+    <section class="page" id="page-admin">
+      <div class="admin-grid">
+        <div class="card admin-section">
+          <div class="admin-section-header">
+            <div class="admin-section-icon"><i data-lucide="users-round"></i></div>
+            <div><h3>User Management</h3><p>Manage system login accounts.</p></div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="usersTable"><thead><tr><th>Name</th><th>Department</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody id="usersTbody"></tbody></table>
+          </div>
+          <div style="margin-top:14px" id="addUserWrap">
+            <button class="btn-primary" id="addUserBtn"><i data-lucide="user-plus"></i> Add User</button>
+          </div>
+        </div>
+
+        <!-- Staff list (non-login employees clocked via terminal) -->
+        <div class="card admin-section">
+          <div class="admin-section-header">
+            <div class="admin-section-icon"><i data-lucide="id-card"></i></div>
+            <div><h3>Staff Register</h3><p>Non-login employees clocked in via the terminal. Future: NFC cards.</p></div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="staffTable"><thead><tr><th>Name</th><th>Department</th><th>Status</th><th>Actions</th></tr></thead><tbody id="staffTbody"></tbody></table>
+          </div>
+          <div style="margin-top:14px">
+            <button class="btn-primary" id="addStaffBtn"><i data-lucide="user-plus"></i> Add Staff Member</button>
+          </div>
+        </div>
+
+        <div class="card admin-section" id="dataRecoveryCard">
+          <div class="admin-section-header">
+            <div class="admin-section-icon"><i data-lucide="file-spreadsheet"></i></div>
+            <div><h3>Reports</h3><p>Download operational CSV reports.</p></div>
+          </div>
+          <div class="recovery-actions">
+            <button class="btn-secondary" id="adminExportBookings"><i data-lucide="file-spreadsheet"></i> Room Bookings CSV</button>
+            <button class="btn-secondary" id="adminExportVenues"><i data-lucide="file-spreadsheet"></i> Venues CSV</button>
+            <button class="btn-secondary" id="adminExportClients"><i data-lucide="users"></i> Clients CSV</button>
+          </div>
+        </div>
+
+        <!-- Owner/developer activity view -->
+        <div class="card admin-section" id="activityLogCard">
+          <div class="admin-section-header">
+            <div class="admin-section-icon dev-icon"><i data-lucide="activity"></i></div>
+            <div><h3>Activity Log</h3><p>Owners see the last 20 events. Developers can export all activity.</p></div>
+          </div>
+          <div class="recovery-actions" id="activityExportWrap" style="margin-bottom:12px">
+            <button class="btn-secondary" id="adminExportActivity"><i data-lucide="file-spreadsheet"></i> Login Activity CSV</button>
+          </div>
+          <div class="activity-log" id="activityLog"></div>
+        </div>
+
+        <div class="card admin-section" id="dbPanelCard">
+          <div class="admin-section-header">
+            <div class="admin-section-icon dev-icon"><i data-lucide="database"></i></div>
+            <div><h3>Database Info <span class="dev-only-tag">DEV</span></h3><p>Connection and backend endpoints.</p></div>
+          </div>
+          <div class="db-info-grid" id="dbInfoGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEV SECRET PANEL -->
+    <section class="page" id="page-devsecret">
+      <div class="dev-secret-panel">
+        <div class="dsp-header">
+          <div class="dsp-icon"><i data-lucide="terminal"></i></div>
+          <h2>Developer Console</h2>
+          <span class="dev-only-tag" style="font-size:.75rem;padding:4px 10px">DEVELOPER EYES ONLY</span>
+        </div>
+        <p class="dsp-subtitle">Developer-only diagnostics, audit monitoring, login view switching, and recovery tools.</p>
+        <div class="dev-console-tabs" id="devConsoleTabs">
+          <button class="dev-console-tab active" data-dev-tab="overview"><i data-lucide="layout-dashboard"></i> Overview</button>
+          <button class="dev-console-tab" data-dev-tab="activity"><i data-lucide="activity"></i> Activity</button>
+          <button class="dev-console-tab" data-dev-tab="accounts"><i data-lucide="users-round"></i> Login Views</button>
+          <button class="dev-console-tab" data-dev-tab="toolkit"><i data-lucide="wrench"></i> Toolkit</button>
+          <button class="dev-console-tab" data-dev-tab="security"><i data-lucide="shield-check"></i> Security</button>
+        </div>
+        <div class="dsp-grid">
+          <div class="dsp-card dsp-card-wide dev-tab-panel" data-dev-panel="overview">
+            <h4><i data-lucide="repeat-2"></i> Switch View</h4>
+            <div class="table-wrap">
+              <table class="data-table" id="devSwitchTable">
+                <thead><tr><th>View</th><th>Access</th><th>Status</th><th>Open View</th></tr></thead>
+                <tbody id="devSwitchTbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="dsp-card dev-tab-panel" data-dev-panel="overview">
+            <h4><i data-lucide="archive"></i> Recovery Snapshot</h4>
+            <div id="devStorageInfo"></div>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn-primary" id="devExportAll">Export Backup</button>
+              <button class="btn-secondary" id="devShowSession">Log Session</button>
+            </div>
+          </div>
+          <div class="dsp-card dev-tab-panel" data-dev-panel="overview">
+            <h4><i data-lucide="server"></i> System Status</h4>
+            <div class="dsp-info-list" id="devBuildInfo"></div>
+          </div>
+          <div class="dsp-card dsp-card-wide dev-tab-panel" data-dev-panel="activity">
+            <h4><i data-lucide="activity"></i> Activity Monitor</h4>
+            <div style="margin-bottom:12px">
+              <button class="btn-secondary" id="devExportActivity"><i data-lucide="file-spreadsheet"></i> Login Activity CSV</button>
+            </div>
+            <div class="dev-activity-summary" id="devActivitySummary"></div>
+            <div class="activity-log dev-activity-log" id="devActivityLog"></div>
+          </div>
+          <div class="dsp-card dsp-card-wide dev-tab-panel" data-dev-panel="accounts">
+            <h4><i data-lucide="users-round"></i> Login View Details</h4>
+            <div class="table-wrap">
+              <table class="data-table" id="devUsersTable">
+                <thead><tr><th>Login Name</th><th>Role</th><th>Dept</th><th>Status</th><th>Visibility</th></tr></thead>
+                <tbody id="devUsersTbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="dsp-card dsp-card-wide dev-tab-panel" data-dev-panel="toolkit">
+            <h4><i data-lucide="wrench"></i> Developer Toolkit</h4>
+            <div class="developer-tool-grid">
+              <button class="btn-primary" id="devRunHealth"><i data-lucide="activity"></i> Run Health Check</button>
+              <button class="btn-secondary" id="devExportHandover"><i data-lucide="briefcase-business"></i> Export Handover Pack</button>
+              <button class="btn-secondary" id="devExportDebug"><i data-lucide="package"></i> Export Debug Bundle</button>
+              <button class="btn-secondary" id="devCopySession"><i data-lucide="copy"></i> Copy Session Info</button>
+            </div>
+            <div class="dev-tool-output" id="devToolOutput"></div>
+          </div>
+          <div class="dsp-card dsp-card-wide dev-tab-panel" data-dev-panel="security">
+            <h4><i data-lucide="shield-check"></i> Browser Source Visibility</h4>
+            <div class="security-note-grid">
+              <div class="security-note">
+                <span class="security-note-label">Reality</span>
+                <p>Any HTML, CSS, or JavaScript delivered to a browser can be inspected in DevTools. DevTools Sources cannot be truly hidden.</p>
+              </div>
+              <div class="security-note">
+                <span class="security-note-label">Production Setup</span>
+                <p>Keep secrets, passwords, database credentials, and permissions on the backend. Ship only compiled/minified assets to users.</p>
+              </div>
+              <div class="security-note">
+                <span class="security-note-label">This App</span>
+                <p>Developer-only data is protected by role checks and backend filtering. Ghost accounts remain hidden from owner views.</p>
+              </div>
+            </div>
+          </div>
+          <div class="dsp-card dev-tab-panel" data-dev-panel="overview">
+            <h4><i data-lucide="zap"></i> Quick Actions</h4>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button class="btn-primary" id="devOpenAdmin"><i data-lucide="shield"></i> Open Admin Panel</button>
+              <button class="btn-secondary" id="devToggleLoginLock"><i data-lucide="lock"></i> Close User Access</button>
+              <button class="btn-secondary" id="devSeedData">Reset Local Cache</button>
+              <button class="btn-secondary" id="devClearShifts">Clear Shift Cache</button>
+              <button class="btn-danger" id="devClearAll">Reset Local Cache</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODALS -->
+
+  <!-- Room Booking Modal -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal">
+      <div class="modal-header"><h2 id="bookingModalTitle">New Room Booking</h2><button class="modal-close" data-modal="bookingModal"><i data-lucide="x"></i></button></div>
+      <form class="modal-form" id="bookingForm" novalidate>
+        <input type="hidden" id="bookingId"/>
+        <div class="form-row">
+          <div class="form-group"><label>Guest Name *</label><input type="text" id="bCustomerName" placeholder="Full name" required/></div>
+          <div class="form-group"><label>Contact *</label><input type="text" id="bContact" placeholder="Phone or email" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Check-in *</label><input type="date" id="bCheckIn" required/></div>
+          <div class="form-group"><label>Check-out *</label><input type="date" id="bCheckOut" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Room *</label><select id="bRoom" required><option value="">Select room…</option></select></div>
+          <div class="form-group"><label>Payment *</label><select id="bPayment" required><option value="">Select…</option><option>Paid</option><option>Pending</option><option>Partial</option><option>Cancelled</option></select></div>
+        </div>
+        <div class="form-row"><div class="form-group full-width"><label>Notes</label><input type="text" id="bNotes" placeholder="Optional notes…"/></div></div>
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label>Quotation PDF</label>
+            <input type="file" id="bQuotationPdf" accept="application/pdf,.pdf"/>
+          </div>
+        </div>
+        <div class="modal-actions"><button type="button" class="btn-secondary" data-modal="bookingModal">Cancel</button><button type="submit" class="btn-primary">Save Booking</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="bookingPdfModal">
+    <div class="modal">
+      <div class="modal-header"><h2 id="bookingPdfModalTitle">Quotation PDFs</h2><button class="modal-close" data-modal="bookingPdfModal"><i data-lucide="x"></i></button></div>
+      <div class="modal-form">
+        <input type="hidden" id="pdfBookingId"/>
+        <div class="pdf-upload-row">
+          <input type="file" id="bookingPdfInput" accept="application/pdf,.pdf"/>
+          <button type="button" class="btn-primary" id="uploadBookingPdfBtn"><i data-lucide="upload"></i> Upload PDF</button>
+        </div>
+        <div class="attachment-list" id="bookingPdfList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Venue Booking Modal -->
+  <div class="modal-overlay" id="venueModal">
+    <div class="modal">
+      <div class="modal-header"><h2 id="venueModalTitle">New Venue Booking</h2><button class="modal-close" data-modal="venueModal"><i data-lucide="x"></i></button></div>
+      <form class="modal-form" id="venueForm" novalidate>
+        <input type="hidden" id="venueBookingId"/>
+        <div class="form-row">
+          <div class="form-group"><label>Client Name *</label><input type="text" id="vClientName" placeholder="Full name / Company" required/></div>
+          <div class="form-group"><label>Contact *</label><input type="text" id="vContact" placeholder="Phone or email" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Venue *</label><select id="vVenueType" required>
+            <option value="">Select venue…</option>
+            <option>Lapa</option><option>Event Hall</option><option>Conference Room</option>
+            <option>Pool Area</option><option>Garden</option><option>Boma</option><option>Boardroom</option>
+          </select></div>
+          <div class="form-group"><label>Event Type *</label><input type="text" id="vEventType" placeholder="e.g. Birthday, Wedding, Meeting" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Date *</label><input type="date" id="vDate" required/></div>
+          <div class="form-group"><label>Time *</label><input type="time" id="vTime" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Number of Guests *</label><input type="number" id="vGuests" min="1" placeholder="e.g. 50" required/></div>
+          <div class="form-group"><label>Booking Amount (R) *</label><input type="number" id="vAmount" min="0" placeholder="e.g. 3500" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Payment Status *</label><select id="vPayment" required><option value="">Select…</option><option>Paid</option><option>Pending</option><option>Partial</option><option>Cancelled</option></select></div>
+          <div class="form-group"><label>Notes</label><input type="text" id="vNotes" placeholder="Optional…"/></div>
+        </div>
+        <div class="modal-actions"><button type="button" class="btn-secondary" data-modal="venueModal">Cancel</button><button type="submit" class="btn-primary">Save Venue Booking</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Room Modal -->
+  <div class="modal-overlay" id="roomModal">
+    <div class="modal">
+      <div class="modal-header"><h2 id="roomModalTitle">Add Room</h2><button class="modal-close" data-modal="roomModal"><i data-lucide="x"></i></button></div>
+      <form class="modal-form" id="roomForm" novalidate>
+        <input type="hidden" id="roomId"/>
+        <div class="form-row">
+          <div class="form-group"><label>Room Number *</label><input type="text" id="rNumber" placeholder="101" required/></div>
+          <div class="form-group"><label>Type *</label><select id="rType" required><option value="">Select…</option><option>Standard</option><option>Deluxe</option><option>Suite</option><option>Villa</option><option>Penthouse</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Price/Night (R) *</label><input type="number" id="rPrice" min="0" required/></div>
+          <div class="form-group"><label>Capacity *</label><input type="number" id="rCapacity" min="1" required/></div>
+        </div>
+        <div class="form-row"><div class="form-group full-width"><label>Status *</label><select id="rStatus" required><option value="available">Available</option><option value="booked">Booked</option><option value="maintenance">Maintenance</option></select></div></div>
+        <div class="modal-actions"><button type="button" class="btn-secondary" data-modal="roomModal">Cancel</button><button type="submit" class="btn-primary">Save Room</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- User Modal -->
+  <div class="modal-overlay" id="userModal">
+    <div class="modal">
+      <div class="modal-header"><h2 id="userModalTitle">Add User</h2><button class="modal-close" data-modal="userModal"><i data-lucide="x"></i></button></div>
+      <form class="modal-form" id="userForm" novalidate>
+        <input type="hidden" id="userId"/>
+        <div class="form-row">
+          <div class="form-group"><label>Name *</label><input type="text" id="uName" placeholder="Name" required/></div>
+          <div class="form-group"><label>Department *</label><select id="uDept" required><option value="">Select…</option><option>Reception</option><option>Management</option><option>Housekeeping</option><option>Maintenance</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Role *</label><select id="uRole" required><option value="">Select…</option><option value="reception">Reception</option><option value="owner">Owner</option></select></div>
+          <div class="form-group"><label>Password *</label><input type="password" id="uPassword" placeholder="Set password" required/></div>
+        </div>
+        <div class="modal-actions"><button type="button" class="btn-secondary" data-modal="userModal">Cancel</button><button type="submit" class="btn-primary">Save User</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Staff Modal (non-login employees) -->
+  <div class="modal-overlay" id="staffModal">
+    <div class="modal modal-sm">
+      <div class="modal-header"><h2 id="staffModalTitle">Add Staff Member</h2><button class="modal-close" data-modal="staffModal"><i data-lucide="x"></i></button></div>
+      <form class="modal-form" id="staffForm" novalidate>
+        <input type="hidden" id="staffMemberId"/>
+        <div class="form-row">
+          <div class="form-group"><label>Name *</label><input type="text" id="smName" placeholder="Name" required/></div>
+          <div class="form-group"><label>Department *</label><select id="smDept" required><option value="">Select…</option><option>Reception</option><option>Housekeeping</option><option>Maintenance</option><option>Management</option></select></div>
+        </div>
+        <div class="modal-actions"><button type="button" class="btn-secondary" data-modal="staffModal">Cancel</button><button type="submit" class="btn-primary">Save</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Customer Detail Modal -->
+  <div class="modal-overlay" id="customerModal">
+    <div class="modal modal-lg">
+      <div class="modal-header"><h2 id="customerModalName">Guest Details</h2><button class="modal-close" data-modal="customerModal"><i data-lucide="x"></i></button></div>
+      <div id="customerModalBody" class="customer-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- Clock Action Confirm Modal -->
+  <div class="modal-overlay" id="clockActionModal">
+    <div class="modal modal-sm">
+      <div class="modal-header"><h2 id="clockActionTitle">Confirm Clock-In</h2><button class="modal-close" data-modal="clockActionModal"><i data-lucide="x"></i></button></div>
+      <div id="clockActionBody" class="clock-action-body"></div>
+      <div class="modal-actions"><button class="btn-secondary" data-modal="clockActionModal">Cancel</button><button class="btn-primary" id="confirmClockBtn">Confirm</button></div>
+    </div>
+  </div>
+
+  <!-- Shift Edit Modal -->
+  <div class="modal-overlay" id="shiftModal">
+    <div class="modal modal-sm">
+      <div class="modal-header"><h2 id="shiftModalTitle">Edit Shift</h2><button class="modal-close" data-modal="shiftModal"><i data-lucide="x"></i></button></div>
+      <form class="modal-form" id="shiftForm" novalidate>
+        <input type="hidden" id="shiftId"/>
+        <div class="form-row">
+          <div class="form-group"><label>Clock In</label><input type="time" id="sClockIn"/></div>
+          <div class="form-group"><label>Clock Out</label><input type="time" id="sClockOut"/></div>
+        </div>
+        <div class="form-row"><div class="form-group full-width"><label>Note</label><input type="text" id="sNote" placeholder="Optional…"/></div></div>
+        <div class="modal-actions"><button type="button" class="btn-secondary" data-modal="shiftModal">Cancel</button><button type="submit" class="btn-primary">Save</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirm Delete -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal modal-sm">
+      <div class="modal-header"><h2>Confirm Delete</h2><button class="modal-close" data-modal="confirmModal"><i data-lucide="x"></i></button></div>
+      <p class="confirm-message" id="confirmMessage">Are you sure?</p>
+      <div class="modal-actions"><button class="btn-secondary" data-modal="confirmModal">Cancel</button><button class="btn-danger" id="confirmDeleteBtn">Delete</button></div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    window.LASEV_API_BASE = "";
+  </script>
+  <script src="api.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
