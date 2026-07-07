@@ -200,6 +200,14 @@ const toWebsiteRequestClient = row => ({
 
 // ── Middleware ───────────────────────────────────────────────
 const allowedOrigins = envList('CLIENT_ORIGIN');
+const renderOrigin = process.env.RENDER_EXTERNAL_URL || (process.env.RENDER_EXTERNAL_HOSTNAME ? `https://${process.env.RENDER_EXTERNAL_HOSTNAME}` : '');
+
+function isAllowedOrigin(origin) {
+  if (allowedOrigins.includes(origin)) return true;
+  if (renderOrigin && origin === renderOrigin) return true;
+  return /^https:\/\/[a-z0-9-]+\.onrender\.com$/i.test(origin);
+}
+
 app.disable('x-powered-by');
 app.set('trust proxy', Number(process.env.TRUST_PROXY || 1));
 app.use(requestLogger);
@@ -207,7 +215,7 @@ app.use(securityHeaders);
 app.use(cors({
   origin(origin, cb) {
     if (!origin) return cb(null, true);
-    if (allowedOrigins.includes(origin)) return cb(null, true);
+    if (isAllowedOrigin(origin)) return cb(null, true);
     return cb(new Error('Origin not allowed by CORS.'));
   },
   credentials: true,
